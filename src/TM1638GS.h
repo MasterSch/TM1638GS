@@ -19,10 +19,10 @@
 #define TM_RED          0x2
 
 
-class TM1638lite
+class TM1638GS
 {
   public:
-    TM1638lite(uint8_t strobe, uint8_t clock, uint8_t data);
+    TM1638GS(uint8_t strobe, uint8_t clock, uint8_t data);
     void sendCommand(uint8_t value);
     void reset();
     uint8_t readButtons();

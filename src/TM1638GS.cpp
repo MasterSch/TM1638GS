@@ -13,7 +13,7 @@ uint8_t STROBE_IO;
 uint8_t DATA_IO;
 uint8_t CLOCK_IO;
 
-TM1638lite::TM1638lite(uint8_t strobe, uint8_t clock, uint8_t data) {
+TM1638GS::TM1638GS(uint8_t strobe, uint8_t clock, uint8_t data) {
   STROBE_IO = strobe;
   DATA_IO = data;
   CLOCK_IO = clock;
@@ -24,14 +24,14 @@ TM1638lite::TM1638lite(uint8_t strobe, uint8_t clock, uint8_t data) {
   reset();
 }
 
-void TM1638lite::sendCommand(uint8_t value)
+void TM1638GS::sendCommand(uint8_t value)
 {
   digitalWrite(STROBE_IO, LOW);
   shiftOut(DATA_IO, CLOCK_IO, LSBFIRST, value);
   digitalWrite(STROBE_IO, HIGH);
 }
 
-void TM1638lite::reset() {
+void TM1638GS::reset() {
   sendCommand(WRITE_INC); // set auto increment mode
   digitalWrite(STROBE_IO, LOW);
   shiftOut(DATA_IO, CLOCK_IO, LSBFIRST, 0xc0);   // set starting address to 0
@@ -42,7 +42,7 @@ void TM1638lite::reset() {
   digitalWrite(STROBE_IO, HIGH);
 }
 
-uint8_t TM1638lite::readButtons()
+uint8_t TM1638GS::readButtons()
 {
   uint8_t buttons = 0;
   digitalWrite(STROBE_IO, LOW);
@@ -60,20 +60,20 @@ uint8_t TM1638lite::readButtons()
   return buttons;
 }
 
-void TM1638lite::setBrightness(uint8_t value)
+void TM1638GS::setBrightness(uint8_t value)
 {
   sendCommand(0x88 | (value & 7));
 }
 
 
-void TM1638lite::displayText(String text) {
+void TM1638GS::displayText(String text) {
   uint8_t length = text.length();
   for (uint8_t position = 0; position < 8 && position < length; position++)
 	displayASCII(position, text[position]);
 }
 
 
-void TM1638lite::displaySS(uint8_t position, uint8_t value) { // call 7-segment
+void TM1638GS::displaySS(uint8_t position, uint8_t value) { // call 7-segment
   sendCommand(WRITE_LOC);
   digitalWrite(STROBE_IO, LOW);
   shiftOut(DATA_IO, CLOCK_IO, LSBFIRST, 0xC0 + (position << 1));
@@ -81,23 +81,23 @@ void TM1638lite::displaySS(uint8_t position, uint8_t value) { // call 7-segment
   digitalWrite(STROBE_IO, HIGH);
 }
 
-void TM1638lite::displayASCII(uint8_t position, uint8_t ascii) {
+void TM1638GS::displayASCII(uint8_t position, uint8_t ascii) {
   displaySS(position, ss[ascii]);
 }
 
-void TM1638lite::displayHex(uint8_t position, uint8_t hex) {
+void TM1638GS::displayHex(uint8_t position, uint8_t hex) {
   displaySS(position, hexss[hex]);
 }
 
 
-void TM1638lite::clear()
+void TM1638GS::clear()
 {
   for (uint8_t position = 0; position < 8; position++)
 	displayASCII(position, 0x20);
 }
 
 
-void TM1638lite::clearLEDs()
+void TM1638GS::clearLEDs()
 {
     for (uint8_t a = REG_LED_OFFSET; a <= REG_MAX; a += 2)
    {       
@@ -110,7 +110,7 @@ void TM1638lite::clearLEDs()
    }
 }
 
-void TM1638lite::setColorLED(const uint8_t pos, const uint8_t color)
+void TM1638GS::setColorLED(const uint8_t pos, const uint8_t color)
 {
 //    send_data(LED_TO_REG(pos), color);
     sendCommand(WRITE_LOC);
@@ -120,7 +120,7 @@ void TM1638lite::setColorLED(const uint8_t pos, const uint8_t color)
     digitalWrite(STROBE_IO, HIGH);
 }
 
-void TM1638lite::setColorLEDs(uint8_t green, uint8_t red)
+void TM1638GS::setColorLEDs(uint8_t green, uint8_t red)
 {
     for (uint8_t a = REG_LED_OFFSET; a <= REG_MAX; a += 2, green >>= 1, red >>= 1)
   //      send_data(a, (green & 1) | ((red & 1) << 1));

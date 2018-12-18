@@ -20,11 +20,13 @@ void setup() {
   tm.displayText("abc");
   tm.setColorLED(0, 1);
   
-  delay(2000);
   tm.displayASCII(5, 't');
   tm.displayASCII(6, 'u');
   tm.displayASCII(7, 'y');
-  tm.setLED(7, 1);
+  tm.setColorLED(7, 2);
+  delay(2000);
+  tm.clearLEDs();
+  delay(1000);
 
   x = 0;
   do {
@@ -36,7 +38,7 @@ void setup() {
 
   tm.setBrightness(2);
   tm.clearLEDs();
-
+  tm.clear();     
 
   delay(1000);
 
@@ -50,8 +52,9 @@ void setup() {
   tm.displayHex(7, 15);
 
   delay(2000);
+  tm.clear();     
+  delay(2000);
 
-  tm.displayText("buttons ");
 }
 
 void loop() {
@@ -69,8 +72,9 @@ void loop() {
       x++;
     } 
 
-      delay(4000);
+      delay(3000);
       tm.clear();
+      delay(2000);
       tm.setColorLEDs(0xF0, 0x0F);   //<-- Right half green, left half red
       delay(2000);
       tm.setColorLEDs(0x55, 0x00);   //<-- Right half green, left half red
@@ -100,18 +104,9 @@ void loop() {
       tm.setColorLED(x, 0);
       x++;
       } while(x<8); 
-
-
-
-
-
-
-
- 
  
       tm.displayText("..Ende..");
       delay(2000);
-
 
   uint8_t buttons = tm.readButtons();
   doLEDs(buttons);
@@ -121,7 +116,7 @@ void loop() {
 // scans the individual bits of value
 void doLEDs(uint8_t value) {
   for (uint8_t position = 0; position < 8; position++) {
-    tm.setLED(position, value & 1);
+    tm.setColorLED(position, value & 1);
     value = value >> 1;
   }
 }
