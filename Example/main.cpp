@@ -2,9 +2,13 @@
 
 #include <TM1638GS.h>
 
+
+
+
 // I/O pins on the Arduino connected to strobe, clock, data
 // (power should go to 3.3v and GND)
-TM1638GS tm(8,9,10);
+TM1638GS tm(0,2,14);   // D3 D4 D5     WeMos D1R23
+//TM1638GS tm(5,6,7);    // D5 D6 D7     Leonardo
 
 void doLEDs(uint8_t value);
 
@@ -14,15 +18,16 @@ char text[9] =  "        ";
 
 
 void setup() {
-  int x = 0;
-  tm.reset();
+tm.reset();
 
-  tm.displayText("abc");
-  tm.setColorLED(0, 1);
+}
+
+void loop() {
+
+  int x = 0;
   
-  tm.displayASCII(5, 't');
-  tm.displayASCII(6, 'u');
-  tm.displayASCII(7, 'y');
+  tm.displayText("AbCdEF");
+  tm.setColorLED(0, 1);
   tm.setColorLED(7, 2);
   delay(2000);
   tm.clearLEDs();
@@ -32,6 +37,7 @@ void setup() {
   do {
   tm.setColorLED(x, 1);
   tm.setBrightness(x);
+  tm.displayASCII(7, x+48);
   delay(1000);
   x++;
   } while(x<8); 
@@ -55,11 +61,7 @@ void setup() {
   tm.clear();     
   delay(2000);
 
-}
-
-void loop() {
-
-    int x = 0;
+    x = 0;
 
     while (x < end)  {
 
@@ -106,10 +108,12 @@ void loop() {
       } while(x<8); 
  
       tm.displayText("..Ende..");
+      delay(3000);
+      tm.clear();     
       delay(2000);
 
-  uint8_t buttons = tm.readButtons();
-  doLEDs(buttons);
+//  uint8_t buttons = tm.readButtons();
+//  doLEDs(buttons);
 
 }
 
