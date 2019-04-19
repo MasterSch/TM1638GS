@@ -37,7 +37,7 @@ class TM1638GS
     //    setColorLEDs(0xFF, 0x00);   <-- All green
     //    setColorLEDs(0x00, 0xFF);   <-- All red
     //    setColorLEDs(0xFF, 0xFF);   <-- All green+red
-    //    setColorLEDs(0xF0, 0x0F);   <-- Right half green, left half red
+    //    setColorLEDs(0xF0, 0x0F);   <-- left half green, right half red
     void setColorLEDs(uint8_t green, uint8_t red);
     uint8_t readButtons();
 
