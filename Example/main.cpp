@@ -7,7 +7,7 @@
 
 // I/O pins on the Arduino connected to strobe, clock, data
 // (power should go to 3.3v and GND)
-//TM1638GS tm(0,2,14);   // D3 D4 D5     WeMos D1R23
+//TM1638GS tm(0,2,14);   // D3 D4 D5     WeMos D1R2
 TM1638GS LedAndKey(5,6,7);    // D5 D6 D7     Leonardo
 
 void doLEDs(uint8_t value);
