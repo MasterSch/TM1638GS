@@ -54,9 +54,9 @@ TM1638GS::TM1638GS(uint8_t strobe, uint8_t clock, uint8_t data)
   STROBE = strobe;
   DATA = data;
   CLOCK = clock;
-  pinMode(strobe, OUTPUT);
-  pinMode(clock, OUTPUT);
-  pinMode(data, OUTPUT);
+  pinMode(STROBE, OUTPUT);
+  pinMode(CLOCK, OUTPUT);
+  pinMode(DATA, OUTPUT);
   send_Command(ACTIVATE_DISPLAY);
   reset();
 }
